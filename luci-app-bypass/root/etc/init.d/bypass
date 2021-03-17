@@ -247,13 +247,6 @@ rules(){
 		log "Bypass has Started.";return 1
 	fi
 	cat $LOG 2>/dev/null | sed -n '$p' | grep -q 'Check network status...\|Download IP/GFW files...' || gen_log
-	if netstat -unlp | grep smartdns | grep -q :5336;then
-		cat <<-EOF >> $FWI
-iptables -t nat -I OUTPUT -p tcp --dport 53 -m comment --comment _SS_SPEC_RULE_ -j REDIRECT --to-ports 5336
-iptables -t nat -I OUTPUT -p udp --dport 53 -m comment --comment _SS_SPEC_RULE_ -j REDIRECT --to-ports 5336
-EOF
-		sh $FWI
-	fi
 	check_net
 	cat $LOG 2>/dev/null | sed -n '$p' | grep -q 'Download IP/GFW files...' || (log "Check network status successful!";log "Check IP/GFW files...")
 	mkdir -p /var/run $VAR
@@ -1004,14 +997,16 @@ stop(){
 	if [ $STATUS = Y -o -z "$GLOBAL_SERVER" ];then
 		rm -rf $K $SDNS $PID $LOC
 		/etc/init.d/dnsmasq restart >/dev/null 2>&1
-	else
+	elif [ -s $DNS_T ];then
 		cat > $DNS_T <<-EOF
 			speed-check-mode none
 			cache-persist no
 			cache-size 0
 			log-level fatal
 			log-file $LOG
+			bind :5335
 			bind :5336
+			bind :5337
 		EOF
 		if [ $dns_mode_d = doh ];then
 			dns_d_l="223.5.5.5 223.6.6.6"
