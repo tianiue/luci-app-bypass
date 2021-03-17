@@ -1,0 +1,18 @@
+#!/bin/sh
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@bypass[-1]
+	add ucitrack bypass
+	set ucitrack.@bypass[-1].init=bypass
+	commit ucitrack
+	delete firewall.bypass
+	set firewall.bypass=include
+	set firewall.bypass.type=script
+	set firewall.bypass.path=/var/etc/bypass.include
+	set firewall.bypass.reload=1
+	commit firewall
+	set smartdns.@smartdns[0].enabled=0
+	commit smartdns
+EOF
+/etc/init.d/smartdns stop 2>/dev/null
+rm -rf /tmp/luci-modulecache /tmp/luci-indexcache*
+exit 0
