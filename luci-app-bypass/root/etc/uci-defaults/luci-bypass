@@ -13,5 +13,6 @@ uci -q batch <<-EOF >/dev/null
 	set smartdns.@smartdns[0].enabled=0
 	commit smartdns
 EOF
+/etc/init.d/bypass enable
 /etc/init.d/smartdns stop 2>/dev/null
 rm -rf /tmp/luci-modulecache /tmp/luci-indexcache*
