@@ -98,6 +98,11 @@ define Build/Prepare
 		po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+[ -n "$${IPKG_INSTROOT}" ] || (/etc/init.d/bypass enable;/etc/uci-defaults/luci-bypass;rm -f /etc/uci-defaults/luci-bypass)
+endef
+
 define Build/Compile
 endef
 
