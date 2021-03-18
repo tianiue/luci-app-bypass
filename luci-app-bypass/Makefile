@@ -98,6 +98,10 @@ define Build/Prepare
 		po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
+define Package/$(PKG_NAME)/postinst
+[ -n "$$IPKG_INSTROOT" ] || (rm -rf /tmp/luci-modulecache /tmp/luci-indexcache*;killall -HUP rpcd 2>/dev/null;/etc/init.d/smartdns stop 2>/dev/null;/etc/init.d/bypass enable)
+endef
+
 define Build/Compile
 endef
 
@@ -134,15 +138,6 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DATA) ./root/www/luci-static/bypass/flags/* $(1)/www/luci-static/bypass/flags/
 	$(INSTALL_DIR) $(1)/www/luci-static/bypass/img
 	$(INSTALL_DATA) ./root/www/luci-static/bypass/img/* $(1)/www/luci-static/bypass/img/
-endef
-
-define Package/$(PKG_NAME)/prerm
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ];then
-	/etc/init.d/bypass disable
-	/etc/init.d/bypass stop
-fi
-exit 0
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
