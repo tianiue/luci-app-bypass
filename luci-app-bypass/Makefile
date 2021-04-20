@@ -32,7 +32,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_Simple_obfs
 config PACKAGE_$(PKG_NAME)_INCLUDE_Simple_obfs_server
 	bool "Include Shadowsocks Simple-obfs-server Plugin"
 	depends on PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server
-	default y
+	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray_plugin
 	bool "Include Shadowsocks V2ray Plugin"
