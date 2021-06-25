@@ -10,12 +10,6 @@
 
 [TG交流与反馈](https://t.me/opwrts)
 
-### 相关依赖 
-
-Lua-Maxminddb: https://github.com/garypang13/openwrt-packages/tree/master/lua-maxminddb
-
-smartdns-le:   https://github.com/garypang13/smartdns-le
-
 
 #### 默认集成的DNS方案已是最优解,不推荐再与其他DNS插件比如adg搭配使用. 去广告推荐使用基于dnsmasq的 [luci-app-dnsfilter](https://github.com/garypang13/luci-app-dnsfilter)
 
