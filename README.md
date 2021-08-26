@@ -20,7 +20,7 @@
 ### 感谢
 https://github.com/fw876/helloworld
 
-https://github.com/kenzok8/small
+https://github.com/imy7/small
 
 https://github.com/xiaorouji/openwrt-passwall/tree/main/luci-app-passwall
 
